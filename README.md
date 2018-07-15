@@ -1,2 +1,2 @@
-# ethereum-lottery-cotract
+# Ethereum Lottery Cotract
 Lottery with oraclize
