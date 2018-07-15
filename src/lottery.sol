@@ -7,7 +7,7 @@ contract Lottery is owned, usingOraclize {
 
     uint public minEntry = 0.1 ether;
     address[] players;
-    uint oraclizeQueryId = 0;
+    bytes32 oraclizeQueryId = 0;
 
     event MinEntryChanged(address indexed who, uint minEntry);
     event PlayerEntered(address indexed who, uint amount);
@@ -37,6 +37,7 @@ contract Lottery is owned, usingOraclize {
 
     function __callback(bytes32 _queryId, string _result, bytes _proof) public { 
         require(msg.sender == oraclize_cbAddress());
+        require(_queryId == oraclizeQueryId);
         
         if (oraclize_randomDS_proofVerify__returnCode(_queryId, _result, _proof) == 0) {
     
@@ -57,10 +58,10 @@ contract Lottery is owned, usingOraclize {
     }
 
     function setMinEntry(uint8 _minEntry) external onlyOwner{
-        require(minEntry > 0);
+        require(_minEntry > 0);
 
         minEntry = _minEntry;
-        emit MinEntryChanged(msg.sender, minEntry);
+        emit MinEntryChanged(msg.sender, _minEntry);
     }
 
     function _isAlreadyPlaying(address _player) internal returns(bool){
