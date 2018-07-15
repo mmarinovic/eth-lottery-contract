@@ -1,2 +1,2 @@
-# Ethereum Lottery Cotract
+# Ethereum Lottery Contract
 Lottery with oraclize
